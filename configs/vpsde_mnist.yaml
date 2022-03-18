@@ -1,0 +1,44 @@
+# model params 
+model: unet
+
+# sde params 
+sde: vpsde
+train_time_eps: 0.00001
+sample_time_eps: 0.001
+beta_min: 0.1 
+beta_max: 20 
+time_steps: 1000
+
+# training params 
+train_steps: 120000
+log_step: 100
+eval_step: 1000
+save_step: 5000
+trainer: base_trainer
+
+# sampling params 
+ode_solver_tol: 0.0001
+num_samples: 64 
+sample_step: 1000
+
+# dataset params
+dataset: mnist 
+workers: 4 
+batch_size: 128 
+num_channels: 1 
+num_classes: 10 
+img_size: 32 
+
+# data process params 
+logit_transform: true 
+alpha: 0.95 
+uniform_dequantize: true 
+
+# optimizer params 
+lr: 0.0005
+optim: adam
+weight_decay: 0 
+beta1: 0.9 
+eps: 0.00000001
+warmup: 5000
+grad_clip: 1.0

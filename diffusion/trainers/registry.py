@@ -7,7 +7,7 @@ def register(fn):
     return fn
 
 
-def get_trainer(args=None, device=None):
+def get_trainer(args=None):
     if args.trainer is None:
         return _TRAINERS
-    return _TRAINERS[args.trainer](args, device)
+    return _TRAINERS[args.trainer](args)

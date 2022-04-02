@@ -1,2 +1,2 @@
-from .unet import UNetScore
+from .unet import Unet
 from .registry import get_model

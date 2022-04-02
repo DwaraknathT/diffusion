@@ -1,5 +1,3 @@
-import torch
-
 import yaml
 import argparse
 from datasets import get_dataset
@@ -44,6 +42,5 @@ if __name__ == "__main__":
     trainloader, testloader = get_dataset(args)
 
     # Get trainer and train
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    trainer = get_trainer(args, device)
+    trainer = get_trainer(args)
     trainer.train(trainloader, testloader)

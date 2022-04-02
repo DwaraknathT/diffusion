@@ -4,7 +4,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from diffusion.models.registry import register
+import einops
+from .registry import register
 
 
 class DoubleConv(nn.Module):
@@ -79,14 +80,14 @@ class OutConv(nn.Module):
         return self.conv(x)
 
 
-class UNetScore(nn.Module):
+class Unet(nn.Module):
     def __init__(self, n_channels, out_channels, bilinear=False):
-        super(UNetScore, self).__init__()
+        super(Unet, self).__init__()
         self.n_channels = n_channels
         self.out_channels = out_channels
         self.bilinear = bilinear
 
-        self.inc = DoubleConv(n_channels, 64)
+        self.inc = DoubleConv(n_channels + 1, 64)
         self.down1 = Down(64, 128)
         self.down2 = Down(128, 256)
         self.down3 = Down(256, 512)
@@ -99,6 +100,10 @@ class UNetScore(nn.Module):
         self.outc = OutConv(64, out_channels)
 
     def forward(self, x, t):
+
+        b, h, w = x.shape[0], x.shape[-2], x.shape[-1]
+        t = einops.repeat(t, "b -> b 1 h w", b=b, h=h, w=w)
+        x = torch.cat([x, t], dim=1)
         x1 = self.inc(x)
         x2 = self.down1(x1)
         x3 = self.down2(x2)
@@ -114,4 +119,4 @@ class UNetScore(nn.Module):
 
 @register
 def unet(args):
-    return UNetScore(args.num_channels, args.num_channels)
+    return Unet(args.num_channels, args.num_channels)

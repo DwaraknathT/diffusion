@@ -18,6 +18,5 @@ python main.py --c 'configs/vpsde_mnist.yaml'
 * Maximum likelihood based training using likelihood weighting (from [this](https://arxiv.org/abs/2101.09258) paper) 
 
 ## Samples 
-* Disclaimer -- Model not trained till convergence (better ones along with fancy animation on the way)
 
     ![Image](assets/sample.png)

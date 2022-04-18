@@ -24,7 +24,7 @@ class VESDE(AbstractSDE):
         super().__init__()
         # Starting and ending betas
         self.sigma_min = args.sigma_min
-        self.beta_max = args.beta_max
+        self.sigma_max = args.sigma_max
         self.N = args.time_steps
         self.device = device
 
@@ -70,7 +70,7 @@ class VESDE(AbstractSDE):
         Returns:
             torch.tensor: Diffusion of SDE at time t
         """
-        ratio = self.sigma_max / self.sigma_min
+        ratio = torch.tensor(self.sigma_max / self.sigma_min)
         diffusion = self.sigma_min * (ratio ** t)
         diffusion *= torch.sqrt(2 * torch.log(ratio))
         return fill_tail_dims(diffusion, data)
